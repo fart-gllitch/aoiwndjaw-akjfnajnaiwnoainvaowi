@@ -4,6 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Frost - Sign In</title>
+    <div class="top-bar">
+    <div class="container mx-auto px-6 py-2">
+        <div class="flex justify-end space-x-6">
+            <a href="#" class="text-blue-900 hover:text-blue-700 flex items-center">
+                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"></path>
+                </svg>
+            </a>
+            <a href="signin.html" class="text-blue-900 hover:text-blue-700">Sign In</a>
+            <a href="cheatlibrary.html" class="text-blue-900 hover:text-blue-700">Cheat Library</a>
+            <a href="register.html" class="text-blue-900 hover:text-blue-700">Register</a>
+        </div>
+    </div>
+</div>
     <style>
         * {
             margin: 0;
@@ -159,6 +173,31 @@
             color: #fff;
             text-shadow: 0 0 10px rgba(0, 102, 204, 0.5);
         }
+        .top-bar {
+        background-color: #000;
+        color: #f5f5f7;
+        border-bottom: 1px solid #1e1e1e;
+    }
+
+    .top-bar .container {
+        max-width: 1280px;
+    }
+
+    .top-bar a {
+        font-size: 16px;
+        color: #f5f5f7;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    .top-bar a:hover {
+        color: #0066cc;
+        text-shadow: 0 0 10px rgba(0, 102, 204, 0.3);
+    }
+
+    .top-bar svg {
+        color: #0066cc;
+    }
     </style>
 </head>
 <body>
