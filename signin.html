@@ -6,6 +6,7 @@
     <title>PremX - Sign In</title>
     <link rel="icon" href="favicon" type="image/x-icon">
     <style>
+        /* Styling for the login page */
         * {
             margin: 0;
             padding: 0;
@@ -160,6 +161,12 @@
             color: #fff;
             text-shadow: 0 0 10px rgba(0, 102, 204, 0.5);
         }
+
+        .top-bar {
+            background-color: #000;
+            color: #f5f5f7;
+            border-bottom: 1px solid #1e1e1e;
+        }
     </style>
 </head>
 <body>
@@ -168,8 +175,8 @@
         <div class="login-container">
             <div class="logo"><a href="index.html" style="text-decoration: none;">Frost</a></div>
             <div class="subtitle">Welcome back to your loader</div>
-            <input type="text" id="email" class="input-field" placeholder="Email" required>
-            <input type="password" id="password" class="input-field" placeholder="Password" required>
+            <input type="text" class="input-field" id="username" placeholder="Email" required>
+            <input type="password" class="input-field" id="password" placeholder="Password" required>
             <button class="login-btn" onclick="handleLogin()">Sign In</button>
             <a href="#" class="forgot-password">Forgot Password?</a>
             <div class="signup">Don't have an account? <a href="register.html">Register</a></div>
@@ -181,49 +188,43 @@
             const messageBox = document.getElementById('message-box');
             messageBox.textContent = message;
             messageBox.className = 'show ' + type;
-
+            
             setTimeout(() => {
                 messageBox.className = '';
             }, 3000);
         }
 
-        async function handleLogin() {
-            const email = document.getElementById('email').value;
+        function handleLogin() {
+            const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
-
-            if (!email || !password) {
+            
+            if (!username || !password) {
                 showMessage('Please fill in all fields', 'error');
                 return;
             }
 
             showMessage('Signing in...');
-
-            try {
-                const response = await fetch('https://2b346252-0943-4faa-9124-45ca27cad62d-00-p4ir1lr2xtbc.worf.replit.dev/api/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username: email, password })
-                });
-
-                const data = await response.json();
-
+            
+            fetch('https://2b346252-0943-4faa-9124-45ca27cad62d-00-p4ir1lr2xtbc.worf.replit.dev/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username: username, password: password }),
+            })
+            .then(response => response.json())
+            .then(data => {
                 if (data.success) {
-                    showMessage('Login successful!', 'success');
-                    window.location.href = 'panel.html';
+                    showMessage('Login successful', 'success');
+                    // Redirect or show the panel page
                 } else {
-                    showMessage(data.message || 'Invalid credentials', 'error');
+                    showMessage(data.message, 'error');
                 }
-            } catch (error) {
-                showMessage('An error occurred. Please try again.', 'error');
-            }
+            })
+            .catch(error => {
+                showMessage('An error occurred', 'error');
+            });
         }
-
-        document.addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') {
-                handleLogin();
-            }
-        });
     </script>
 </body>
 </html>
-
