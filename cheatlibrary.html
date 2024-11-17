@@ -115,39 +115,45 @@
     </footer>
 
     <!-- GSAP Animation Script -->
-    <script>
-        gsap.registerPlugin(ScrollTrigger);
+<script>
+    gsap.registerPlugin(ScrollTrigger);
 
-        // Page load animations
-        gsap.from("header, footer", {
-            y: -100,
-            opacity: 0,
-            duration: 1,
-            ease: "power4.out"
-        });
-        gsap.from(".product-card", {
-            opacity: 0,
-            y: 50,
-            duration: 1,
-            stagger: 0.2,
-            ease: "power4.out"
-        });
+    // Set GSAP default for smooth animations
+    gsap.defaults({
+        duration: 1,
+        ease: "power4.out"
+    });
 
-        // Scroll animations
-        gsap.utils.toArray('.product-card').forEach(card => {
-            gsap.from(card, {
-                opacity: 0,
-                y: 50,
+    // Page load animations
+    gsap.from("header, footer", {
+        y: -100,
+        opacity: 0
+    });
+
+    // Animate product cards on page load
+    gsap.from(".product-card", {
+        opacity: 0,
+        y: 50,
+        stagger: 0.2
+    });
+
+    // Scroll-triggered animations for product cards
+    gsap.utils.toArray('.product-card').forEach(card => {
+        gsap.fromTo(
+            card,
+            { opacity: 0, y: 50 }, // Starting state
+            { 
+                opacity: 1, y: 0,  // Ending state
                 scrollTrigger: {
                     trigger: card,
                     start: "top 80%",
                     end: "top 60%",
-                    scrub: true,
-                },
-                duration: 1,
-                ease: "power4.out"
-            });
-        });
-    </script>
+                    scrub: false, // No scrubbing for smooth entry
+                }
+            }
+        );
+    });
+</script>
+
 </body>
 </html>
