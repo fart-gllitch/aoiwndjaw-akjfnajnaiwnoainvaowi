@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Frost - Digital Solutions</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+    <style>
+        .frost-bg {
+            background: linear-gradient(135deg, #e6f7ff 0%, #ffffff 100%);
+        }
+        .frost-glass {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .frost-shadow {
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+        }
+        .top-bar {
+            background: rgba(13, 71, 161, 0.1);
+            backdrop-filter: blur(5px);
+        }
+    </style>
+</head>
+<body class="frost-bg min-h-screen">
+    <!-- New Top Bar -->
+    <div class="top-bar text-sm">
+        <div class="container mx-auto px-6 py-2">
+            <div class="flex justify-end space-x-6">
+                <a href="#" class="text-blue-900 hover:text-blue-700 flex items-center">
+                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"></path>
+                    </svg>
+                    Library Access
+                </a>
+                <a href="#" class="text-blue-900 hover:text-blue-700">Sign In</a>
+                <a href="#" class="text-blue-900 hover:text-blue-700">Register</a>
+            </div>
+        </div>
+    </div>
+
+    <nav class="frost-glass w-full z-10">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="text-4xl font-bold text-blue-900">❄️ Frost</div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#" class="text-blue-900 hover:text-blue-700">Home</a>
+                    <a href="#" class="text-blue-900 hover:text-blue-700">Products</a>
+                    <a href="#" class="text-blue-900 hover:text-blue-700">About</a>
+                    <a href="#" class="text-blue-900 hover:text-blue-700">Contact</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-6 pt-24">
+        <div class="text-center mb-20">
+            <h1 class="text-6xl font-bold text-blue-900 mb-6">Digital Solutions</h1>
+            <p class="text-xl text-blue-800 mb-8">Premium Cheat Products for Your Needs</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-12 mb-20">
+            <div class="frost-glass frost-shadow rounded-xl p-8">
+                <h2 class="text-3xl font-bold text-blue-900 mb-4">Digital Library</h2>
+                <p class="text-blue-800 mb-6">Access our extensive collection of premium cheat content.</p>
+                <a href="#" class="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition">Browse Collection</a>
+            </div>
+
+            <div class="frost-glass frost-shadow rounded-xl p-8">
+                <h2 class="text-3xl font-bold text-blue-900 mb-4">Software Solutions</h2>
+                <p class="text-blue-800 mb-6">Advanced software tools including our signature temp-perm authentication system. Built for reliability and performance.</p>
+                <a href="#" class="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition">View Products</a>
+            </div>
+        </div>
+
+        <div class="frost-glass frost-shadow rounded-xl p-12 text-center mb-20">
+            <h2 class="text-4xl font-bold text-blue-900 mb-6">Why Choose Frost?</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div>
+                    <div class="text-5xl mb-4">🛡️</div>
+                    <h3 class="text-xl font-bold text-blue-900 mb-2">Secure</h3>
+                    <p class="text-blue-800">Fast Cheats and undetected</p>
+                </div>
+                <div>
+                    <div class="text-5xl mb-4">⚡</div>
+                    <h3 class="text-xl font-bold text-blue-900 mb-2">Fast</h3>
+                    <p class="text-blue-800">Instant delivery of all cheat products</p>
+                </div>
+                <div>
+                    <div class="text-5xl mb-4">🔧</div>
+                    <h3 class="text-xl font-bold text-blue-900 mb-2">Reliable</h3>
+                    <p class="text-blue-800">24/7 support and guaranteed functionality</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="frost-glass py-8">
+        <div class="container mx-auto px-6 text-center text-blue-900">
+            <p>&copy; 2024 Frost. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
