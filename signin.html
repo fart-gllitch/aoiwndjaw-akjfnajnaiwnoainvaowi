@@ -216,7 +216,7 @@
             .then(data => {
                 if (data.success) {
                     showMessage('Login successful', 'success');
-                    // Redirect or show the panel page
+                     window.location.href = data.redirect;
                 } else {
                     showMessage(data.message, 'error');
                 }
