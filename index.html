@@ -1,6 +1,8 @@
 <!DOCTYPE html> 
-<html>
+<html lang="en">
 <head> 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PremX - Premium Cheats</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
     <style>
@@ -19,18 +21,29 @@
             background: rgba(13, 71, 161, 0.1);
             backdrop-filter: blur(5px);
         }
+
+        /* Animation classes */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
     </style>
 </head>
 <body class="frost-bg min-h-screen">
+
     <!-- New Top Bar -->
-    <div class="top-bar text-sm">
+    <div class="top-bar text-sm fade-up">
         <div class="container mx-auto px-6 py-2">
             <div class="flex justify-end space-x-6">
                 <a href="#" class="text-blue-900 hover:text-blue-700 flex items-center">
                     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"></path>
                     </svg>
-                    
                 </a>
                 <a href="signin.html" class="text-blue-900 hover:text-blue-700">Sign In</a>
                 <a href="cheatlibrary.html" class="text-blue-900 hover:text-blue-700">Cheat Library</a>
@@ -39,7 +52,7 @@
         </div>
     </div>
 
-    <nav class="frost-glass w-full z-10">
+    <nav class="frost-glass w-full z-10 fade-up">
         <div class="container mx-auto px-6 py-4">
             <div class="flex items-center justify-between">
                 <div class="text-4xl font-bold text-blue-900">❄️ PremX</div>
@@ -54,26 +67,26 @@
     </nav>
 
     <main class="container mx-auto px-6 pt-24">
-        <div class="text-center mb-20">
+        <div class="text-center mb-20 fade-up">
             <h1 class="text-6xl font-bold text-blue-900 mb-6">Digital Solutions</h1>
             <p class="text-xl text-blue-800 mb-8">Premium Cheat Products for Your Needs</p>
         </div>
 
         <div class="grid md:grid-cols-2 gap-12 mb-20">
-            <div class="frost-glass frost-shadow rounded-xl p-8">
+            <div class="frost-glass frost-shadow rounded-xl p-8 fade-up">
                 <h2 class="text-3xl font-bold text-blue-900 mb-4">Digital Library</h2>
                 <p class="text-blue-800 mb-6">Access our extensive collection of premium cheat content.</p>
                 <a href="cheatlibrary.html" class="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition">Browse Collection</a>
             </div>
 
-            <div class="frost-glass frost-shadow rounded-xl p-8">
+            <div class="frost-glass frost-shadow rounded-xl p-8 fade-up">
                 <h2 class="text-3xl font-bold text-blue-900 mb-4">Software Solutions</h2>
                 <p class="text-blue-800 mb-6">Advanced software tools including our signature temp-perm unban spoofer. Built for reliability and performance.</p>
                 <a href="spoofer.html" class="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition">View Products</a>
             </div>
         </div>
 
-        <div class="frost-glass frost-shadow rounded-xl p-12 text-center mb-20">
+        <div class="frost-glass frost-shadow rounded-xl p-12 text-center mb-20 fade-up">
             <h2 class="text-4xl font-bold text-blue-900 mb-6">Why Choose Frost?</h2>
             <div class="grid md:grid-cols-3 gap-8">
                 <div>
@@ -95,10 +108,30 @@
         </div>
     </main>
 
-    <footer class="frost-glass py-8">
+    <footer class="frost-glass py-8 fade-up">
         <div class="container mx-auto px-6 text-center text-blue-900">
             <p>&copy; 2024 PremX. All rights reserved.</p>
         </div>
     </footer>
+
+    <script>
+        // Function to handle scroll-based animations
+        const elements = document.querySelectorAll('.fade-up');
+
+        const checkVisibility = () => {
+            elements.forEach(element => {
+                const rect = element.getBoundingClientRect();
+                if (rect.top <= window.innerHeight * 0.75 && rect.bottom >= 0) {
+                    element.classList.add('visible');
+                }
+            });
+        };
+
+        // Check visibility on page load
+        window.addEventListener('load', checkVisibility);
+
+        // Check visibility on scroll
+        window.addEventListener('scroll', checkVisibility);
+    </script>
 </body>
 </html>
