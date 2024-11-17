@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Resell - PremX</title>
+    <link rel="icon" href="favicon" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+    <style>
+        .frost-bg {
+            background: linear-gradient(135deg, #e6f7ff 0%, #ffffff 100%);
+        }
+        .frost-glass {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .frost-shadow {
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+        }
+    </style>
+</head>
+<body class="frost-bg min-h-screen">
+
+    <nav class="frost-glass w-full z-10">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="text-4xl font-bold text-blue-900">❄️ PremX</div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="index.html" class="text-blue-900 hover:text-blue-700">Home</a>
+                    <a href="cheatlibrary.html" class="text-blue-900 hover:text-blue-700">Products</a>
+                    <a href="about.html" class="text-blue-900 hover:text-blue-700">About</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-6 pt-24">
+        <div class="text-center mb-12">
+            <h1 class="text-6xl font-bold text-blue-900 mb-6">Resell</h1>
+            <p class="text-xl text-blue-800">Start making money by reselling our products.</p>
+        </div>
+
+        <div class="frost-glass frost-shadow rounded-xl p-8">
+            <img src="/api/placeholder/500/300" alt="Resell" class="w-full h-64 object-cover rounded-lg mb-6">
+            <h2 class="text-3xl font-bold text-blue-900 mb-4">Key Features</h2>
+            <ul class="list-disc list-inside text-blue-800 mb-6">
+                <li>Unlimited resell opportunities</li>
+                <li>High profit daily</li>
+                <li>Access to loader resources</li>
+                <li>24/7 support</li>
+            </ul>
+
+            <h2 class="text-3xl font-bold text-blue-900 mb-4">Pricing</h2>
+            <p class="text-blue-800 text-lg mb-6">$20 - One-time purchase</p>
+
+            <div class="text-center">
+                <a href="discord.html" class="bg-blue-600 text-white px-12 py-3 rounded-lg hover:bg-blue-700 transition">Buy Now</a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="frost-glass py-8 mt-20">
+        <div class="container mx-auto px-6 text-center text-blue-900">
+            <p>&copy; 2024 PremX. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
