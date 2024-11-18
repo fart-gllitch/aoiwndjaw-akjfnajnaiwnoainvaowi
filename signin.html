@@ -215,7 +215,7 @@ function handleLogin() {
         if (data.success) {
             showMessage('Login successful!', 'success');
             setTimeout(() => {
-                window.location.href = 'panel.html'; // Redirect to the panel page
+                window.location.href = '#'; // Redirect to the panel page
             }, 1000);
         } else {
             showMessage('Invalid credentials. Please try again.', 'error');
