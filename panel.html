@@ -71,41 +71,33 @@
         </main>
     </div>
 
-    <script>
-        async function validateSession() {
-            try {
-                // First, call the /api/oauth to handle the Discord OAuth
-                const oauthResponse = await fetch('/api/oauth', { method: 'GET' });
-                if (!oauthResponse.ok) {
-                    throw new Error('OAuth failed');
-                }
-
-                // Now, validate IP via /api/validate
-                const validateResponse = await fetch('/api/validate', { method: 'GET' });
-                const validateData = await validateResponse.json();
-                if (!validateResponse.ok || !validateData.success) {
-                    throw new Error('IP validation failed');
-                }
-
-        <script>
+<script>
     async function validateSession() {
         try {
             // First, call the /api/oauth to handle the Discord OAuth
             const oauthResponse = await fetch('/api/oauth', { method: 'GET' });
             if (!oauthResponse.ok) {
-                throw new Error('OAuth failed');
+                throw new Error(`OAuth failed with status ${oauthResponse.status}`);
             }
+
+            // Check if the response is valid JSON
+            const oauthData = await oauthResponse.json();
 
             // Now, validate IP via /api/validate
             const validateResponse = await fetch('/api/validate', { method: 'GET' });
+            if (!validateResponse.ok) {
+                throw new Error(`IP validation failed with status ${validateResponse.status}`);
+            }
+
+            // Check if the response is valid JSON
             const validateData = await validateResponse.json();
-            if (!validateResponse.ok || !validateData.success) {
+            if (!validateData.success) {
                 throw new Error('IP validation failed');
             }
 
             // Continue to display panel if successful
         } catch (error) {
-            console.error("fart message:", error.message);
+            console.error("Session validation failed: ", error.message);
             // You can add any fallback behavior here, such as redirecting the user or showing an error message.
         }
     }
@@ -113,11 +105,6 @@
     window.onload = validateSession;
 </script>
 
-            }
-        }
-
-        
-    </script>
 </body>
 
 </html>
