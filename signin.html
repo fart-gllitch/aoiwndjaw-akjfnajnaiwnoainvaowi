@@ -193,36 +193,39 @@
             }, 3000);
         }
 
-        function handleLogin() {
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            
-            if (!username || !password) {
-                showMessage('Please fill in all fields', 'error');
-                return;
-            }
+function handleLogin() {
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
 
-            // Send login request to the API
-            fetch('https://2b346252-0943-4faa-9124-45ca27cad62d-00-p4ir1lr2xtbc.worf.replit.dev/api/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ username: username, password: password })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    showMessage('Login successful!', 'success');
-                    window.location.href = '/panel.html';  // Redirect to the panel page on successful login
-                } else {
-                    showMessage('Invalid credentials. Please try again.', 'error');
-                }
-            })
-            .catch((error) => {
-                showMessage('Error during login. Please try again later.', 'error');
-            });
+    if (!username || !password) {
+        showMessage('Please fill in all fields', 'error');
+        return;
+    }
+
+    fetch('http://localhost:8080/api/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username: username, password: password }),
+        credentials: 'include' // Include cookies in the request
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showMessage('Login successful!', 'success');
+            setTimeout(() => {
+                window.location.href = 'panel.html'; // Redirect to the panel page
+            }, 1000);
+        } else {
+            showMessage('Invalid credentials. Please try again.', 'error');
         }
+    })
+    .catch((error) => {
+        showMessage('Error during login. Please try again later.', 'error');
+    });
+}
+
 
         document.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
