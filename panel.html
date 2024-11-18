@@ -54,7 +54,7 @@
                 <div class="bg-gray-800 p-6 rounded shadow">
                     <p class="text-gray-400 mb-4">Username: <span id="discord-username" class="font-bold text-white">Loading...</span></p>
                     <p class="text-gray-400 mb-4">Email: <span id="discord-email" class="font-bold text-white">Loading...</span></p>
-                    <p class="text-gray-400 mb-4">Plan: <span id="discord-plan" class="font-bold text-blue-500">Loading...</span></p>
+                    <p class="text-gray-400 mb-4">Plan: <span class="font-bold text-blue-500">Premium</span></p>
                     <button class="w-full bg-red-600 hover:bg-red-700 p-2 rounded font-bold">Delete Account</button>
                 </div>
             </section>
@@ -69,34 +69,28 @@
             </section>
         </main>
     </div>
+
     <script>
         async function validateSession() {
             try {
-                // Validate session via your backend API
-                const validateResponse = await fetch('/api/validate', { method: 'GET', credentials: 'include' });
-                if (!validateResponse.ok) throw new Error('Unauthorized');
+                // First, call the /api/oauth to handle the Discord OAuth
+                const oauthResponse = await fetch('/api/oauth', { method: 'GET' });
+                if (!oauthResponse.ok) {
+                    throw new Error('OAuth failed');
+                }
+
+                // Now, validate IP via /api/validate
+                const validateResponse = await fetch('/api/validate', { method: 'GET' });
                 const validateData = await validateResponse.json();
+                if (!validateResponse.ok || !validateData.success) {
+                    throw new Error('IP validation failed');
+                }
 
-                // If validation is successful, fetch Discord user data
-                const discordResponse = await fetch('https://discord.com/api/v10/users/@me', {
-                    headers: { Authorization: `Bearer ${validateData.discord_token}` },
-                });
-
-                if (!discordResponse.ok) throw new Error('Failed to fetch Discord user data');
-                const discordData = await discordResponse.json();
-
-                // Show panel and update Discord details
+                // Continue to display panel if successful
                 document.getElementById('content').style.display = 'none';
                 document.getElementById('panel').classList.remove('hidden');
-                document.getElementById('discord-name').textContent = `Welcome, ${discordData.username}`;
-                document.getElementById('discord-username').textContent = discordData.username;
-                document.getElementById('discord-email').textContent = discordData.email;
-
-                // Assuming you have a plan associated with the user, you can update it here.
-                // If you have a subscription data, you can fetch it similarly.
-                document.getElementById('discord-plan').textContent = 'Premium';  // Replace with real plan data
             } catch (error) {
-                console.error('Error:', error);
+                console.error('Error during session validation:', error);
                 document.getElementById('content').textContent = 'Session expired. Redirecting to login...';
                 setTimeout(() => {
                     window.location.href = '/signin.html';  // Redirect to login page
@@ -104,8 +98,7 @@
             }
         }
 
-        // Validate session on page load
-        validateSession();
+        window.onload = validateSession;
     </script>
 </body>
 </html>
