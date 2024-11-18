@@ -82,13 +82,28 @@
     </div>
 </body>
 <script>
-    // Check authentication
-    async function checkAuth() {
-        const response = await fetch("/api/auth");
-        if (!response.ok) {
-            window.location.href = "/signin.html";
+ function validateSession() {
+            fetch('https://2b346252-0943-4faa-9124-45ca27cad62d-00-p4ir1lr2xtbc.worf.replit.dev/api/validate', {
+                method: 'GET',
+                credentials: 'include' // Include cookies in the request
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Unauthorized');
+                }
+            })
+            .then(data => {
+                document.getElementById('content').textContent = `Welcome, ${data.username}`;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                window.location.href = 'index.html'; // Redirect to login if unauthorized
+            });
         }
-    }
-    checkAuth();
+
+        // Validate session on page load
+        validateSession();
 </script>
 </html>
