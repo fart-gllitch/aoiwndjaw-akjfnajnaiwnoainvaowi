@@ -8,8 +8,9 @@
     <link rel="icon" href="favicon" type="image/x-icon">
 </head>
 <body class="bg-gray-900 text-white h-screen overflow-hidden">
+    <div id="content" class="p-6 text-center text-red-500">Checking session...</div>
     <!-- Sidebar -->
-    <div class="flex h-full">
+    <div class="flex h-full hidden" id="panel">
         <aside class="w-64 bg-gray-800 p-6">
             <h2 class="text-2xl font-bold mb-6 text-center">PremX Panel</h2>
             <nav class="space-y-4">
@@ -23,6 +24,11 @@
 
         <!-- Main Content -->
         <main class="flex-1 p-6 overflow-auto">
+            <!-- Welcome Section -->
+            <div class="bg-gray-800 p-4 rounded shadow text-center mb-6">
+                <h1 class="text-3xl font-bold" id="discord-name">Welcome, User!</h1>
+            </div>
+
             <!-- Dashboard Section -->
             <section id="dashboard" class="mb-12">
                 <h2 class="text-3xl font-bold mb-4">Dashboard</h2>
@@ -42,29 +48,12 @@
                 </div>
             </section>
 
-            <!-- Manage Cheats Section -->
-            <section id="manage-cheats" class="mb-12">
-                <h2 class="text-3xl font-bold mb-4">Manage Cheats</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="bg-gray-800 p-6 rounded shadow">
-                        <h3 class="text-lg font-bold mb-2">Fortnite Public</h3>
-                        <p class="text-gray-400 mb-4">Subscription: Active until 12/12/2024</p>
-                        <button class="w-full bg-blue-600 hover:bg-blue-700 p-2 rounded font-bold">Manage</button>
-                    </div>
-                    <div class="bg-gray-800 p-6 rounded shadow">
-                        <h3 class="text-lg font-bold mb-2">Permanent Spoofer</h3>
-                        <p class="text-gray-400 mb-4">Subscription: Expired</p>
-                        <button class="w-full bg-gray-600 hover:bg-gray-700 p-2 rounded font-bold">Renew</button>
-                    </div>
-                </div>
-            </section>
-
             <!-- Account Details Section -->
             <section id="account" class="mb-12">
                 <h2 class="text-3xl font-bold mb-4">Account Details</h2>
                 <div class="bg-gray-800 p-6 rounded shadow">
-                    <p class="text-gray-400 mb-4">Username: <span class="font-bold text-white">YourUsername</span></p>
-                    <p class="text-gray-400 mb-4">Email: <span class="font-bold text-white">your-email@example.com</span></p>
+                    <p class="text-gray-400 mb-4">Username: <span id="discord-username" class="font-bold text-white">Loading...</span></p>
+                    <p class="text-gray-400 mb-4">Email: <span id="discord-email" class="font-bold text-white">Loading...</span></p>
                     <p class="text-gray-400 mb-4">Plan: <span class="font-bold text-blue-500">Premium</span></p>
                     <button class="w-full bg-red-600 hover:bg-red-700 p-2 rounded font-bold">Delete Account</button>
                 </div>
@@ -80,30 +69,44 @@
             </section>
         </main>
     </div>
-</body>
-<script>
- function validateSession() {
-            fetch('https://2b346252-0943-4faa-9124-45ca27cad62d-00-p4ir1lr2xtbc.worf.replit.dev/api/validate', {
-                method: 'GET',
-                credentials: 'include' // Include cookies in the request
-            })
-            .then(response => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw new Error('Unauthorized');
-                }
-            })
-            .then(data => {
-                document.getElementById('content').textContent = `Welcome, ${data.username}`;
-            })
-            .catch(error => {
+    <script>
+        async function validateSession() {
+            try {
+                // Validate session via your backend API
+                const validateResponse = await fetch(
+                    'https://2b346252-0943-4faa-9124-45ca27cad62d-00-p4ir1lr2xtbc.worf.replit.dev/api/validate',
+                    { method: 'GET', credentials: 'include' }
+                );
+                if (!validateResponse.ok) throw new Error('Unauthorized');
+                const validateData = await validateResponse.json();
+
+                // Fetch Discord user data after successful session validation
+                const discordResponse = await fetch(
+                    'https://discord.com/api/v10/users/@me',
+                    {
+                        headers: { Authorization: `Bearer ${validateData.discord_token}` },
+                    }
+                );
+                if (!discordResponse.ok) throw new Error('Failed to fetch Discord user data');
+                const discordData = await discordResponse.json();
+
+                // Show panel and update Discord details
+                document.getElementById('content').style.display = 'none';
+                document.getElementById('panel').classList.remove('hidden');
+                document.getElementById('discord-name').textContent = `Welcome, ${discordData.username}`;
+                document.getElementById('discord-username').textContent = discordData.username;
+                document.getElementById('discord-email').textContent = discordData.email;
+            } catch (error) {
                 console.error('Error:', error);
-                window.location.href = 'index.html'; // Redirect to login if unauthorized
-            });
+                document.getElementById('content').textContent = 'Session expired. Redirecting to login...';
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 2000);
+            }
         }
 
         // Validate session on page load
         validateSession();
-</script>
+    </script>
+</body>
 </html>
