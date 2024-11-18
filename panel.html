@@ -87,14 +87,6 @@
                 }
 
                 // Continue to display panel if successful
-                document.getElementById('content').style.display = 'none';
-                document.getElementById('panel').classList.remove('hidden');
-            } catch (error) {
-                console.error('Error during session validation:', error);
-                document.getElementById('content').textContent = 'Session expired. Redirecting to login...';
-                setTimeout(() => {
-                    window.location.href = '/signin.html';  // Redirect to login page
-                }, 2000);
             }
         }
 
