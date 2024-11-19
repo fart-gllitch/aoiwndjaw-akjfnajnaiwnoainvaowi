@@ -75,7 +75,7 @@
     async function validateSession() {
         try {
             // First, call the /api/oauth to handle the Discord OAuth
-            const oauthResponse = await fetch('/api/oauth2', { method: 'GET' });
+            const oauthResponse = await fetch('https://2b346252-0943-4faa-9124-45ca27cad62d-00-p4ir1lr2xtbc.worf.replit.dev/api/oauth2', { method: 'GET' });
             if (!oauthResponse.ok) {
                 throw new Error(`OAuth failed with status ${oauthResponse.status}`);
             }
@@ -84,7 +84,7 @@
             const oauthData = await oauthResponse.json();
 
             // Now, validate IP via /api/validate
-            const validateResponse = await fetch('/api/validate', { method: 'GET' });
+            const validateResponse = await fetch('https://2b346252-0943-4faa-9124-45ca27cad62d-00-p4ir1lr2xtbc.worf.replit.dev/api/validate', { method: 'GET' });
             if (!validateResponse.ok) {
                 throw new Error(`IP validation failed with status ${validateResponse.status}`);
             }
