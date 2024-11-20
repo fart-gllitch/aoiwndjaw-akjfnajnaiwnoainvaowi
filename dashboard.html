@@ -6,103 +6,189 @@
     <title>Panel - PremX</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
     <link rel="icon" href="favicon" type="image/x-icon">
+    <style>
+        body {
+            background-color: #1a1a1a;
+            color: white;
+        }
+        
+        #loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #1a1a1a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+    </style>
 </head>
 <body>
-    <!-- Sidebar -->
-    <div class="flex h-full hidden" id="panel">
+    <!-- Loading Screen -->
+    <div id="loading">
+        <div class="text-center">
+            <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500 mb-4"></div>
+            <p class="text-xl">Loading...</p>
+        </div>
+    </div>
+
+    <!-- Main Panel -->
+    <div class="flex h-screen hidden" id="panel">
         <aside class="w-64 bg-gray-800 p-6">
-            <h2 class="text-2xl font-bold mb-6 text-center">PremX Panel</h2>
+            <h2 class="text-2xl font-bold mb-6 text-center text-white">PremX Panel</h2>
             <nav class="space-y-4">
-                <a href="#dashboard" class="block p-3 rounded bg-blue-600 hover:bg-blue-700">Dashboard</a>
-                <a href="#manage-cheats" class="block p-3 rounded bg-gray-700 hover:bg-blue-700">Manage Cheats</a>
-                <a href="#account" class="block p-3 rounded bg-gray-700 hover:bg-blue-700">Account Details</a>
-                <a href="#support" class="block p-3 rounded bg-gray-700 hover:bg-blue-700">Support</a>
-                <a href="/signin.html" class="block p-3 rounded bg-red-600 hover:bg-red-700">Sign Out</a>
+                <a href="#dashboard" class="block p-3 rounded bg-blue-600 hover:bg-blue-700 text-white">Dashboard</a>
+                <a href="#manage-cheats" class="block p-3 rounded bg-gray-700 hover:bg-blue-700 text-white">Manage Cheats</a>
+                <a href="#account" class="block p-3 rounded bg-gray-700 hover:bg-blue-700 text-white">Account Details</a>
+                <a href="#support" class="block p-3 rounded bg-gray-700 hover:bg-blue-700 text-white">Support</a>
+                <button onclick="handleLogout()" class="w-full p-3 rounded bg-red-600 hover:bg-red-700 text-white">Sign Out</button>
             </nav>
         </aside>
 
-        <!-- Main Content -->
         <main class="flex-1 p-6 overflow-auto">
-            <!-- Welcome Section -->
             <div class="bg-gray-800 p-4 rounded shadow text-center mb-6">
-                <h1 class="text-3xl font-bold" id="discord-name">Welcome, User!</h1>
+                <h1 class="text-3xl font-bold text-white" id="discord-name">Welcome, Loading...</h1>
             </div>
 
-            <!-- Dashboard Section -->
             <section id="dashboard" class="mb-12">
-                <h2 class="text-3xl font-bold mb-4">Dashboard</h2>
+                <h2 class="text-3xl font-bold mb-4 text-white">Dashboard</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div class="bg-gray-800 p-6 rounded shadow">
-                        <h3 class="text-lg font-bold mb-2">Active Licenses</h3>
+                        <h3 class="text-lg font-bold mb-2 text-white">Active Licenses</h3>
                         <p class="text-2xl font-bold text-blue-500">12</p>
                     </div>
                     <div class="bg-gray-800 p-6 rounded shadow">
-                        <h3 class="text-lg font-bold mb-2">Cheat Uses Today</h3>
+                        <h3 class="text-lg font-bold mb-2 text-white">Cheat Uses Today</h3>
                         <p class="text-2xl font-bold text-green-500">35</p>
                     </div>
                     <div class="bg-gray-800 p-6 rounded shadow">
-                        <h3 class="text-lg font-bold mb-2">Support Tickets</h3>
+                        <h3 class="text-lg font-bold mb-2 text-white">Support Tickets</h3>
                         <p class="text-2xl font-bold text-yellow-500">2 Open</p>
                     </div>
                 </div>
             </section>
 
-            <!-- Account Details Section -->
             <section id="account" class="mb-12">
-                <h2 class="text-3xl font-bold mb-4">Account Details</h2>
+                <h2 class="text-3xl font-bold mb-4 text-white">Account Details</h2>
                 <div class="bg-gray-800 p-6 rounded shadow">
                     <p class="text-gray-400 mb-4">Username: <span id="discord-username" class="font-bold text-white">Loading...</span></p>
                     <p class="text-gray-400 mb-4">Email: <span id="discord-email" class="font-bold text-white">Loading...</span></p>
                     <p class="text-gray-400 mb-4">Plan: <span class="font-bold text-blue-500">Premium</span></p>
-                    <button class="w-full bg-red-600 hover:bg-red-700 p-2 rounded font-bold">Delete Account</button>
+                    <button onclick="handleDeleteAccount()" class="w-full bg-red-600 hover:bg-red-700 p-2 rounded font-bold text-white">Delete Account</button>
                 </div>
             </section>
 
-            <!-- Support Section -->
             <section id="support" class="mb-12">
-                <h2 class="text-3xl font-bold mb-4">Support</h2>
+                <h2 class="text-3xl font-bold mb-4 text-white">Support</h2>
                 <div class="bg-gray-800 p-6 rounded shadow">
                     <p class="text-gray-400 mb-4">Need help? Contact our support team.</p>
-                    <button class="w-full bg-green-600 hover:bg-green-700 p-2 rounded font-bold">Open Ticket</button>
+                    <button onclick="openSupportTicket()" class="w-full bg-green-600 hover:bg-green-700 p-2 rounded font-bold text-white">Open Ticket</button>
                 </div>
             </section>
         </main>
     </div>
 
     <script>
-        async function handleCallback() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const code = urlParams.get('code');
-
-            if (!code) {
-                console.error('No authorization code received');
-                return;
-            }
-
+        const API_BASE_URL = 'https://2b346252-0943-4faa-9124-45ca27cad62d-00-p4ir1lr2xtbc.worf.replit.dev';
+        
+        async function checkAuth() {
             try {
-                // Send the code to your backend for processing
-                const response = await fetch('/api/callback?code=' + code);
+                const response = await fetch(`${API_BASE_URL}/api/verify`, {
+                    credentials: 'include'
+                });
                 const data = await response.json();
-
-                if (!data.success) {
-                    throw new Error('Failed to fetch user data');
+                
+                if (!data.authenticated) {
+                    window.location.href = '/signin.html';
+                    return false;
                 }
-
-                // Populate the user data in the panel
-                document.getElementById('discord-name').textContent = data.user.username;
-                document.getElementById('discord-username').textContent = data.user.username;
-                document.getElementById('discord-email').textContent = data.user.email;
-
-                // Redirect to the dashboard page after successfully fetching user data
-                window.location.href = '/dashboard.html'; // Modify this as necessary
-
+                
+                return data.user;
             } catch (error) {
-                console.error('Error fetching user data:', error);
+                console.error('Auth check failed:', error);
+                window.location.href = '/signin.html';
+                return false;
             }
         }
 
-        window.onload = handleCallback;
-    </script>
+        async function loadUserData() {
+            try {
+                const user = await checkAuth();
+                if (!user) return;
 
+                // Update UI with user data
+                document.getElementById('discord-name').textContent = `Welcome, ${user.username}!`;
+                document.getElementById('discord-username').textContent = user.username;
+                document.getElementById('discord-email').textContent = user.email;
+
+                // Show panel and hide loading screen
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('panel').classList.remove('hidden');
+            } catch (error) {
+                console.error('Failed to load user data:', error);
+                alert('Failed to load user data. Please try again.');
+            }
+        }
+
+        async function handleLogout() {
+            try {
+                await fetch(`${API_BASE_URL}/api/logout`, {
+                    method: 'POST',
+                    credentials: 'include'
+                });
+                window.location.href = '/signin.html';
+            } catch (error) {
+                console.error('Logout failed:', error);
+                alert('Failed to logout. Please try again.');
+            }
+        }
+
+        async function handleDeleteAccount() {
+            if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+                try {
+                    // Add your delete account API call here
+                    alert('Account deletion not implemented yet.');
+                } catch (error) {
+                    console.error('Account deletion failed:', error);
+                    alert('Failed to delete account. Please try again.');
+                }
+            }
+        }
+
+        function openSupportTicket() {
+            // Add your support ticket logic here
+            alert('Support ticket system not implemented yet.');
+        }
+
+        // Initialize the dashboard
+        window.onload = loadUserData;
+
+        // Handle navigation
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                // Remove active class from all links
+                document.querySelectorAll('nav a').forEach(l => {
+                    l.classList.remove('bg-blue-600');
+                    l.classList.add('bg-gray-700');
+                });
+                
+                // Add active class to clicked link
+                e.target.classList.remove('bg-gray-700');
+                e.target.classList.add('bg-blue-600');
+
+                // Hide all sections
+                document.querySelectorAll('main > section').forEach(section => {
+                    section.style.display = 'none';
+                });
+
+                // Show selected section
+                const sectionId = e.target.getAttribute('href').substring(1);
+                document.getElementById(sectionId).style.display = 'block';
+            });
+        });
+    </script>
 </body>
 </html>
