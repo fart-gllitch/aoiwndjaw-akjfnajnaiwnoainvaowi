@@ -72,42 +72,29 @@
     </div>
 
 <script>
-    async function validateSession() {
+    async function initiateOAuth() {
         try {
-            // First, get the OAuth URL from your backend
+            // Get the OAuth URL from the backend
             const oauthResponse = await fetch('https://2b346252-0943-4faa-9124-45ca27cad62d-00-p4ir1lr2xtbc.worf.replit.dev/api/oauth2', { method: 'GET' });
             if (!oauthResponse.ok) {
-                throw new Error(`OAuth failed with status ${oauthResponse.status}`);
+                throw new Error(`OAuth URL request failed with status ${oauthResponse.status}`);
             }
 
-            // Check if the response is valid JSON and get the URL
+            // Extract the OAuth URL from the response
             const oauthData = await oauthResponse.json();
-            const oauthUrl = oauthData.url;  // Assuming the response contains the URL
+            const oauthUrl = oauthData.url;
 
-            // Now, validate the user's session/IP via /api/validate
-            const validateResponse = await fetch('https://2b346252-0943-4faa-9124-45ca27cad62d-00-p4ir1lr2xtbc.worf.replit.dev/api/validate', { method: 'POST' });
-            if (!validateResponse.ok) {
-                throw new Error(`IP validation failed with status ${validateResponse.status}`);
-            }
-
-            const validateData = await validateResponse.json();
-            if (!validateData.success) {
-                throw new Error('IP validation failed');
-            }
-
-            // If everything is valid, trigger the redirect
-            window.location.href = oauthUrl;  // Redirect to Discord OAuth URL
-
+            // Redirect the user to the Discord OAuth URL
+            window.location.href = oauthUrl;  // This triggers the redirect to Discord OAuth
         } catch (error) {
-            console.error("Session validation failed: ", error.message);
-            // You can add any fallback behavior here, such as redirecting the user to an error page or showing a message
+            console.error("OAuth initiation failed: ", error.message);
+            // Handle errors (e.g., show an error message)
         }
     }
 
-    window.onload = validateSession;
+    window.onload = initiateOAuth;  // Automatically trigger the OAuth flow on page load
 </script>
 
 </body>
 
 </html>
-
