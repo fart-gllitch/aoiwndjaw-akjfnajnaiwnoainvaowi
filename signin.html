@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PremX - Sign In</title>
-     <link rel="icon" href="favicon" type="image/x-icon">
+    <link rel="icon" href="favicon" type="image/x-icon">
 
     <style>
         * {
@@ -162,10 +162,10 @@
             text-shadow: 0 0 10px rgba(0, 102, 204, 0.5);
         }
         .top-bar {
-        background-color: #000;
-        color: #f5f5f7;
-        border-bottom: 1px solid #1e1e1e;
-    }
+            background-color: #000;
+            color: #f5f5f7;
+            border-bottom: 1px solid #1e1e1e;
+        }
     </style>
 </head>
 <body>
@@ -193,39 +193,65 @@
             }, 3000);
         }
 
-function handleLogin() {
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-
-    if (!username || !password) {
-        showMessage('Please fill in all fields', 'error');
-        return;
-    }
-
-    fetch('https://2b346252-0943-4faa-9124-45ca27cad62d-00-p4ir1lr2xtbc.worf.replit.dev/api/login', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ username: username, password: password }),
-        credentials: 'include' // Include cookies in the request
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            showMessage('Login successful!', 'success');
-            setTimeout(() => {
-                window.location.href = 'panel.html'; // Redirect to the panel page
-            }, 1000);
-        } else {
-            showMessage('Invalid credentials. Please try again.', 'error');
+        // Debugging functions
+        function logDebug(status, message, color) {
+            const timestamp = new Date().toLocaleTimeString();
+            console.log(`%c[${status}] ${message} [${timestamp}]`, `color: ${color}; font-weight: bold;`);
         }
-    })
-    .catch((error) => {
-        showMessage('Error during login. Please try again later.', 'error');
-    });
-}
 
+        function handleLogin() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (!username || !password) {
+                showMessage('Please fill in all fields', 'error');
+                logDebug('Error', 'User did not fill in all fields', 'red');
+                return;
+            }
+
+            logDebug('API', 'Pinging the API for login', 'blue');
+            fetch('https://2b346252-0943-4faa-9124-45ca27cad62d-00-p4ir1lr2xtbc.worf.replit.dev/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username: username, password: password }),
+                credentials: 'include'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showMessage('Login successful!', 'success');
+                    logDebug('API', 'Login successful. Redirecting to panel', 'green');
+                    setTimeout(() => {
+                        window.location.href = 'panel.html';
+                    }, 1000);
+                } else {
+                    showMessage('Invalid credentials. Please try again.', 'error');
+                    logDebug('Error', 'Invalid credentials', 'red');
+                }
+            })
+            .catch((error) => {
+                showMessage('Error during login. Please try again later.', 'error');
+                logDebug('Error', 'Error during API call', 'red');
+            });
+
+            // Debugging local storage
+            logDebug('LocalStorage', 'Checking local storage contents', 'yellow');
+            console.log('Local Storage:', localStorage);
+
+            // Debugging WebSocket connection
+            logDebug('WebSocket', 'Pinging WebSocket connection', 'purple');
+            const ws = new WebSocket('wss://example.com/socket');
+            ws.onopen = () => logDebug('WebSocket', 'WebSocket connection established', 'green');
+            ws.onerror = () => logDebug('WebSocket', 'Error in WebSocket connection', 'red');
+
+            // Process log examples
+            logDebug('ProcessUtilsElectron', 'setMemoryInformation not available.', 'orange');
+            logDebug('DatabaseManager', 'Active user changed (now: 1244463352793665616, was: null)', 'blue');
+            logDebug('Log', '[BUILD INFO] Release Channel: testing, Build Number: 1139480, Version Hash: abcd1234efgh5678ijkl9012mnop3456qrst7890', 'cyan');
+            logDebug('Log', 'AppCrashedFatalReport: getLastCrash not supported.', 'red');
+        }
 
         document.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
