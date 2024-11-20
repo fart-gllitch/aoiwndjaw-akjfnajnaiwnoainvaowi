@@ -56,7 +56,7 @@
                     <p class="text-gray-400 mb-4">Username: <span id="discord-username" class="font-bold text-white">Loading...</span></p>
                     <p class="text-gray-400 mb-4">Email: <span id="discord-email" class="font-bold text-white">Loading...</span></p>
                     <p class="text-gray-400 mb-4">Plan: <span class="font-bold text-blue-500">Premium</span></p>
-                    <button class="w-full bg-red-600 hover:bg-red-700 p-2 rounded font-bold">Delete Account</button>
+                    <button class="w-full bg-red-600 hover:bg-red-700 p-2 rounded font-bold" id="delete-account-btn">Delete Account</button>
                 </div>
             </section>
 
@@ -74,39 +74,40 @@
 <script>
     async function validateSession() {
         try {
-            // First, call the /api/oauth2 to handle the Discord OAuth
+            // First, get the OAuth URL from your backend
             const oauthResponse = await fetch('https://2b346252-0943-4faa-9124-45ca27cad62d-00-p4ir1lr2xtbc.worf.replit.dev/api/oauth2', { method: 'GET' });
             if (!oauthResponse.ok) {
                 throw new Error(`OAuth failed with status ${oauthResponse.status}`);
             }
 
-            // Check if the response is valid JSON
+            // Check if the response is valid JSON and get the URL
             const oauthData = await oauthResponse.json();
+            const oauthUrl = oauthData.url;  // Assuming the response contains the URL
 
-            // Now, validate IP via /api/validate
+            // Now, validate the user's session/IP via /api/validate
             const validateResponse = await fetch('https://2b346252-0943-4faa-9124-45ca27cad62d-00-p4ir1lr2xtbc.worf.replit.dev/api/validate', { method: 'POST' });
             if (!validateResponse.ok) {
                 throw new Error(`IP validation failed with status ${validateResponse.status}`);
             }
 
-            // Check if the response is valid JSON
             const validateData = await validateResponse.json();
             if (!validateData.success) {
                 throw new Error('IP validation failed');
             }
 
-            // Continue to display panel if successful
+            // If everything is valid, trigger the redirect
+            window.location.href = oauthUrl;  // Redirect to Discord OAuth URL
+
         } catch (error) {
             console.error("Session validation failed: ", error.message);
-            // You can add any fallback behavior here, such as redirecting the user or showing an error message.
+            // You can add any fallback behavior here, such as redirecting the user to an error page or showing a message
         }
     }
 
     window.onload = validateSession;
-
-    
 </script>
 
 </body>
 
 </html>
+
