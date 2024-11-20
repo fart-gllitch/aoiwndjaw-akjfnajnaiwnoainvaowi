@@ -72,29 +72,35 @@
     </div>
 
 <script>
-    async function fetchUserData() {
+    async function handleCallback() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code');
+
+        if (!code) {
+            // Handle case where there's no 'code' in the URL
+            console.error('No authorization code received');
+            return;
+        }
+
         try {
-            // Call the /api/callback endpoint to get user data
-            const response = await fetch('https://2b346252-0943-4faa-9124-45ca27cad62d-00-p4ir1lr2xtbc.worf.replit.dev/api/callback');
-            if (!response.ok) {
-                throw new Error(`Failed to fetch user data: ${response.status}`);
-            }
-            
+            // Send the code to your backend for processing
+            const response = await fetch('/api/callback?code=' + code);
             const data = await response.json();
-            if (data.success) {
-                // Fill in the user details on the page
-                document.getElementById('discord-name').textContent = data.user.username;
-                document.getElementById('discord-username').textContent = data.user.username;
-                document.getElementById('discord-email').textContent = data.user.email;
-            } else {
-                console.error('Failed to load user data:', data.message);
+
+            if (!data.success) {
+                throw new Error('Failed to fetch user data');
             }
+
+            // Populate the user data in the panel
+            document.getElementById('discord-name').textContent = data.user.username;
+            document.getElementById('discord-username').textContent = data.user.username;
+            document.getElementById('discord-email').textContent = data.user.email;
         } catch (error) {
-            console.error('Error fetching user data:', error.message);
+            console.error('Error fetching user data:', error);
         }
     }
 
-    window.onload = fetchUserData;
+    window.onload = handleCallback;
 </script>
 
 </body>
