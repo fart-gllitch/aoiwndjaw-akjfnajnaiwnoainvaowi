@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PremX - Sign In</title>
-    <link rel="icon" href="favicon" type="image/x-icon">
+     <link rel="icon" href="favicon" type="image/x-icon">
 
     <style>
         * {
@@ -162,10 +162,10 @@
             text-shadow: 0 0 10px rgba(0, 102, 204, 0.5);
         }
         .top-bar {
-            background-color: #000;
-            color: #f5f5f7;
-            border-bottom: 1px solid #1e1e1e;
-        }
+        background-color: #000;
+        color: #f5f5f7;
+        border-bottom: 1px solid #1e1e1e;
+    }
     </style>
 </head>
 <body>
@@ -193,65 +193,94 @@
             }, 3000);
         }
 
-        // Debugging functions
-        function logDebug(status, message, color) {
+function handleLogin() {
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    if (!username || !password) {
+        showMessage('Please fill in all fields', 'error');
+        return;
+    }
+
+    fetch('https://2b346252-0943-4faa-9124-45ca27cad62d-00-p4ir1lr2xtbc.worf.replit.dev/api/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username: username, password: password }),
+        credentials: 'include' // Include cookies in the request
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showMessage('Login successful!', 'success');
+            setTimeout(() => {
+                window.location.href = 'panel.html'; // Redirect to the panel page
+            }, 1000);
+        } else {
+            showMessage('Invalid credentials. Please try again.', 'error');
+        }
+    })
+    .catch((error) => {
+        showMessage('Error during login. Please try again later.', 'error');
+    });
+}
+
+
+        function logDebug(status, message, color = 'purple') {
             const timestamp = new Date().toLocaleTimeString();
             console.log(`%c[${status}] ${message} [${timestamp}]`, `color: ${color}; font-weight: bold;`);
         }
 
-        function handleLogin() {
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-
-            if (!username || !password) {
-                showMessage('Please fill in all fields', 'error');
-                logDebug('Error', 'User did not fill in all fields', 'red');
-                return;
-            }
-
-            logDebug('API', 'Pinging the API for login', 'blue');
-            fetch('https://2b346252-0943-4faa-9124-45ca27cad62d-00-p4ir1lr2xtbc.worf.replit.dev/api/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ username: username, password: password }),
-                credentials: 'include'
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    showMessage('Login successful!', 'success');
-                    logDebug('API', 'Login successful. Redirecting to panel', 'green');
-                    setTimeout(() => {
-                        window.location.href = 'panel.html';
-                    }, 1000);
-                } else {
-                    showMessage('Invalid credentials. Please try again.', 'error');
-                    logDebug('Error', 'Invalid credentials', 'red');
-                }
-            })
-            .catch((error) => {
-                showMessage('Error during login. Please try again later.', 'error');
-                logDebug('Error', 'Error during API call', 'red');
-            });
-
-            // Debugging local storage
-            logDebug('LocalStorage', 'Checking local storage contents', 'yellow');
-            console.log('Local Storage:', localStorage);
-
-            // Debugging WebSocket connection
-            logDebug('WebSocket', 'Pinging WebSocket connection', 'purple');
-            const ws = new WebSocket('wss://example.com/socket');
-            ws.onopen = () => logDebug('WebSocket', 'WebSocket connection established', 'green');
-            ws.onerror = () => logDebug('WebSocket', 'Error in WebSocket connection', 'red');
-
-            // Process log examples
-            logDebug('ProcessUtilsElectron', 'setMemoryInformation not available.', 'orange');
-            logDebug('DatabaseManager', 'Active user changed (now: 1244463352793665616, was: null)', 'blue');
-            logDebug('Log', '[BUILD INFO] Release Channel: testing, Build Number: 1139480, Version Hash: abcd1234efgh5678ijkl9012mnop3456qrst7890', 'cyan');
-            logDebug('Log', 'AppCrashedFatalReport: getLastCrash not supported.', 'red');
+        // Logs to simulate the application behavior
+        function initialLogs() {
+            logDebug('AppInfo', 'App started', 'purple');
+            logDebug('Warning', 'Network latency detected', 'orange');
+            logDebug('Error', 'Failed to connect to server: Timeout', 'red');
+            logDebug('AuthenticationStore', 'Token not found', 'purple');
+            logDebug('Debug', 'Initializing core services', 'purple');
+            logDebug('Warning', 'Low disk space detected', 'orange');
+            logDebug('Security', 'Password hash mismatch', 'yellow');
+            logDebug('Error', '500 Internal Server Error', 'red');
+            logDebug('Debug', 'User session expired', 'purple');
+            logDebug('Warning', 'Unauthorized access attempt', 'orange');
+            logDebug('API', 'Fetching user data...', 'blue');
+            logDebug('API', 'User data received successfully', 'blue');
+            logDebug('AppState', 'User logged out', 'purple');
+            logDebug('Error', '404 Not Found: Missing API endpoint', 'red');
+            logDebug('Warning', 'Session timeout', 'orange');
+            logDebug('Debug', 'Reconnecting to the database...', 'purple');
+            logDebug('Debug', 'Cache cleared successfully', 'purple');
+            logDebug('Security', 'Encryption key mismatch', 'yellow');
+            logDebug('AppInfo', 'Memory usage reached threshold', 'purple');
+            logDebug('Debug', 'Session token refreshed', 'purple');
+            logDebug('API', 'Pinging API...', 'blue');
+            logDebug('Warning', 'API rate limit exceeded', 'orange');
+            logDebug('Database', 'Database connected successfully', 'blue');
+            logDebug('AppState', 'App update required', 'purple');
+            logDebug('Error', 'Failed to load resources', 'red');
+            logDebug('Security', 'Two-factor authentication required', 'yellow');
+            logDebug('AppInfo', 'User redirected to login page', 'purple');
+            logDebug('Debug', 'User authentication state checked', 'purple');
+            logDebug('API', 'Post request sent successfully', 'blue');
+            logDebug('Debug', 'Clearing application data', 'purple');
+            logDebug('Error', 'Missing required parameter', 'red');
+            logDebug('Debug', 'Reloading page...', 'purple');
+            logDebug('Security', 'Firewall rules applied', 'yellow');
+            logDebug('Warning', 'Low memory warning', 'orange');
+            logDebug('GitHub Pages Build: Initializing...', 'blue');
+            logDebug('Preparing GitHub Actions workflow directory...', 'purple');
+            logDebug('Downloading action repositories: actions/checkout@v4, actions/jekyll-build-pages@v1', 'blue');
+            logDebug('Downloading GitHub Pages Docker image: ghcr.io/actions/jekyll-build-pages:v1.0.13', 'blue');
+            logDebug('Building site with Jekyll... Generating assets and applying theme: jekyll-theme-primer', 'green');
+            logDebug('Assets successfully rendered: assets/css/style.scss', 'green');
+            logDebug('Uploading build artifacts to GitHub Pages...', 'purple');
+            logDebug('Artifact successfully uploaded: github-pages.zip', 'green');
+            logDebug('Artifact download URL: https://github.com/fart-gllitch/aoiwndjaw-akjfnajnaiwnoainvaowi/actions/runs/11925170412/artifacts/2210815789', 'blue');
+            logDebug('GitHub Pages build completed successfully!', 'green');
+        
         }
+
 
         document.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
